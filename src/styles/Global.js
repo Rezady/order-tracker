@@ -8,9 +8,9 @@ export const GlobalStyles = createGlobalStyle`
 
 	body {
 		margin: 0;
-		padding: 50px;
+		/* padding: 50px; */
 		overflow-x: hidden;
-		min-height: 100vh;
+		height: 100vh;
 		text-rendering: optimizeSpeed;
 		font-family: Arial, Helvetica, sans-serif;
 		font-size: 1rem;
@@ -32,8 +32,8 @@ export const GlobalStyles = createGlobalStyle`
 		margin: 0;
 	},
 	#root {
-		min-height: 100vh;
-		width: 100vw;
+		min-height: 100%;
+		width: 100%;
 		display: flex;
 		justify-content: center;
 		align-items: center;

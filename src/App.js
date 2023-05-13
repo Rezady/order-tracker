@@ -1,16 +1,16 @@
-import logo from './logo.svg';
-import './App.css';
-
 import { GlobalStyles } from './styles/Global';
-import { device } from './styles/Breakpoints';
 import Layout from './components/layout';
+import Router from './router';
+import { BrowserRouter } from 'react-router-dom';
 
 
 function App() {
   return (
     <>
       <GlobalStyles />
-      <Layout /> 
+      <BrowserRouter>
+        <Router />
+      </BrowserRouter>
     </>
   )
 }
