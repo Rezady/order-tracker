@@ -1,40 +1,100 @@
-import { Column, Row, Input } from "../../styles/elements"
+import { Column, Text } from "../../styles/elements"
 import { TitleSummary, ItemPurchased } from "./style";
 import { Cell, TableRow, ButtonPayment } from "./style";
+import { usePaymentStore } from "../../store/usePayment";
+import { totalPrice } from "../../utils/numbers";
+import { useEffect } from "react";
+import { TIME_SHIPMENT } from "../../utils/constant";
 
-const Summary = ({handleSubmit, navigate, textButton}) => {
+const Summary = ({handleSubmit, navigate, textButton, shipment, deliveryEstimation, paymentMethod, isButton=true}) => {
+	const {
+		isDropShipping,
+		totalPayment,
+		setDropShipping,
+		setTotalPayment,
+		shipmentChosen,
+		paymentChosen
+	} = usePaymentStore()
+	const price = {
+		priceDropshipping: isDropShipping ? 5900 : 0,
+		costOfGoods: 50000,
+		shipmentPrice: shipmentChosen?.price ?? 0
+	}
+	const {priceDropshipping, costOfGoods} = price
 	const onSubmit = data => {
-		console.log(data)
 		navigate()
 	};
+
+	const handleClick = () => {
+		if(!shipmentChosen?.title) {
+			return;
+		}
+		navigate()
+	}
+
+	useEffect(() => {
+		setTotalPayment(totalPrice(price))
+	}, [priceDropshipping, costOfGoods, shipmentChosen.price])
+
 	return (
 		<Column padding="0 0 0 20px" ratio={3} borderLeft="1px solid #FF8A00">
-			<Column ratio={6}>
-				<TitleSummary>Summary</TitleSummary>
-				<ItemPurchased>10 items purchased</ItemPurchased>
+			<Column ratio={6} gap="20px" width="50%">
+				<Column ratio={2} borderBottom="1px solid #D8D8D8">
+					<TitleSummary>Summary</TitleSummary>
+					<ItemPurchased>10 items purchased</ItemPurchased>
+				</Column>
+				<Column ratio={2} gap="4px" borderBottom={shipmentChosen.title ? "1px solid #D8D8D8" : null}>
+					{
+						deliveryEstimation && shipmentChosen.title ? 
+						<>
+							<Text size="14px" weight="400" color="black">Delivery estimation</Text>
+							<Text size="16px" weight="500" color="#1BD97B">
+								{TIME_SHIPMENT[shipmentChosen.title] ?? ""} By {shipmentChosen.title}
+							</Text>
+						</> : null
+					}
+				</Column>
+				<Column ratio={2} gap="4px">
+				{
+					paymentMethod ? 
+					<>
+						<Text size="14px" weight="400" color="black">Payment Method</Text>
+						<Text size="16px" weight="500" color="#1BD97B">{paymentChosen}</Text>
+					</> : null
+					}
+				</Column>
 			</Column>
-			<Column ratio={4} justifyContent="space-between">
+			<Column ratio={4} justifyContent={isButton ? "space-between" : 'flex-end'}>
 				<table>
 					<TableRow>
 						<Cell opacity="0.6">Cost of goods</Cell>
-						<Cell weight="700">500000</Cell>
+						<Cell textAlign="right" weight="700">{costOfGoods}</Cell>
 					</TableRow>
 					<TableRow>
 						<Cell opacity="0.6">Dropshipping fee</Cell>
-						<Cell weight="700">5900</Cell>
+						<Cell textAlign="right" weight="700">{priceDropshipping}</Cell>
 					</TableRow>
+					{shipment && shipmentChosen.title ? 
+						<TableRow>
+							<Cell opacity="0.6">{shipmentChosen.title} Shipment</Cell>
+							<Cell textAlign="right" weight="700">{shipmentChosen.price}</Cell>
+						</TableRow> : null
+					}
 					<TableRow>
 						<Cell color="#FF8A00" weight="700" fontSize="24px">Total</Cell>
-						<Cell color="#FF8A00" weight="700" fontSize="24px">500000</Cell>
+						<Cell textAlign="right" color="#FF8A00" weight="700" fontSize="24px">{totalPayment}</Cell>
 					</TableRow>
 				</table>
-				<ButtonPayment 
-					type="submit"
-					// onSubmit={handleSubmit(onSubmit)}
-					onClick={navigate}
-				>
-					{textButton}
-				</ButtonPayment>
+				{
+					isButton ? 
+						<ButtonPayment 
+							type="submit"
+							// onSubmit={handleSubmit(onSubmit)}
+							onClick={handleClick}
+						>
+						{textButton}
+					</ButtonPayment> : null
+				}
 			</Column>
 		</Column>
 	)

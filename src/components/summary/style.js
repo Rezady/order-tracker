@@ -23,6 +23,7 @@ export const Cell = styled.td`
     mix-blend-mode: normal;
     opacity: ${props => props.opacity?? "1"};
     padding: 6px 0px;
+    text-align: ${props => props.textAlign}
 `
 
 export const TableRow = styled.tr`
@@ -40,4 +41,5 @@ export const ButtonPayment = styled.button`
     color: #FFFFFF;
     padding: 20px 38px;
     margin-top: 30px;
+    cursor: pointer;
 `
