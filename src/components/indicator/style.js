@@ -33,7 +33,7 @@ export const PanelIndicator = styled.div`
 `
 
 export const CircleIndicator = styled.span`
-    background: rgba(255, 138, 0, 0.2);
+    background: ${props => props.active ? "rgba(255, 138, 0, 1)" :"rgba(255, 138, 0, 0.2)"} ;
     mix-blend-mode: normal;
     /* opacity: 0.2; */
     border-radius: 15px;
@@ -47,7 +47,7 @@ export const CircleIndicator = styled.span`
         font-weight: 500;
         font-size: 16px;
         text-align: center;
-        color: #FF8A00;
+        color: ${props => props.active ? "white": "#FF8A00"};
         /* opacity: 1 !important; */
     }
 `
