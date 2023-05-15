@@ -15,6 +15,10 @@ export const Back = styled.p`
     color: #000000;
     mix-blend-mode: normal;
     opacity: 0.6;
+    cursor: pointer;
+    &:active {
+        color: "rgba(0, 0, 0, 0.4)";
+    }
 `
 
 export const PanelIndicator = styled.div`

@@ -38,6 +38,7 @@ const Payment = () => {
                         paymentChosen == details.title ? '2px solid #1BD97B' : null}
                       color={shipmentChosen.title == details.title|| 
                         paymentChosen == details.title ? 'rgba(27, 217, 123, 0.1)' : null}
+                      justifycontent="center"
                     >
                       <Text weight="500" size="13px" color="rgba(0, 0, 0, 0.6)">{details.title}</Text>
                       {details.price ? 
@@ -58,7 +59,8 @@ const Payment = () => {
         textButton={`Pay with ${paymentChosen}`}
         shipment={true}
         deliveryEstimation={true} 
-        navigate={() => navigate('/finish')}
+        handleSubmit={() => navigate('/finish')}
+        disabledButton={!shipmentChosen.title}
       />
     </Form>
   )

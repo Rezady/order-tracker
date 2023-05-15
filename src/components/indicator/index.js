@@ -1,16 +1,23 @@
 import { Header, Back, PanelIndicator, CircleIndicator, TextIndicator } from "./style"
 import { Row } from "../../styles/elements"
 import { INDICATOR } from "../../utils/constant"
-import { useLocation, useRoutes } from "react-router-dom"
-import { getActive } from "../../utils/string"
+import { useLocation, useNavigate } from "react-router-dom"
+import { getActive, goBack } from "../../utils/string"
 
 const Indicator = () => {
   const {pathname} = useLocation()
+  const navigate = useNavigate()
   
 
   return (
     <Header>
-      <Back>Back</Back>
+      {pathname == '/finish' ? null :
+        <Row vertical="center" cursor="pointer" onClick={() => goBack(pathname, navigate)}>
+          <img src='/assets/chevron-left.svg' alt="" />
+          <Back>Back</Back>
+        </Row>
+        
+      }
       <PanelIndicator>
         {
            INDICATOR.map((value, key) => (

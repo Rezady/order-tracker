@@ -5,10 +5,10 @@ import Indicator from "../indicator"
 const Layout = () => {
 	return (
 		<>
-		<Container>
-			<Indicator />
-     		<Outlet />
-		</Container>
+			<Container>
+				<Indicator />
+				<Outlet />
+			</Container>
 		</>
 	)
 } 

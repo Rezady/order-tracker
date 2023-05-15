@@ -5,6 +5,7 @@ export const Box = styled(Column)`
     box-sizing: border-box;
     padding: 12px 15px;
     column-gap: 10px;
+    min-height: 60px;
     cursor: pointer;
     &:hover {
         background-color: #F2F2F2;;

@@ -6,6 +6,7 @@ import { yupResolver } from '@hookform/resolvers/yup';
 import { schemaDelivery } from "../../utils/validations";
 import { useNavigate } from "react-router-dom";
 import { usePaymentStore } from "../../store/usePayment";
+import { useState } from "react";
 
 const Delivery = () => {
 	const navigate = useNavigate()
@@ -18,16 +19,24 @@ const Delivery = () => {
     watch
   } = useForm({mode: "all", resolver: yupResolver(schemaDelivery)});
 
-	const onSubmit = (data) => console.log(data)
+	
 	const addressWatch = watch("address");
 	const {isDropShipping, setDropShipping} = usePaymentStore()
 
   getFieldState("email");
   getFieldState("phoneNumber");
   getFieldState("address");
+
+  const disabledButton = getFieldState("email").invalid || getFieldState("phoneNumber").invalid || 
+    getFieldState("address").invalid || !getFieldState("email").isTouched || 
+    !getFieldState("phoneNumber").isTouched || !getFieldState("address").isTouched
+
+  const onSubmit = () => {
+		navigate('/payment')
+	};
 	
 	return (
-		<Form onSubmit={handleSubmit(onSubmit)}>
+		<Form>
 			<Column ratio={7}>
 				<TitleSection>
 					<TitleText>Delivery Details</TitleText>
@@ -46,19 +55,19 @@ const Delivery = () => {
 						<Input 
               placeholder="Email" 
               {...register('email')}
-              isValid={!getFieldState("email").isTouched ? null : !getFieldState("email").invalid}
+              isvalid={!getFieldState("email").isTouched ? null : !getFieldState("email").invalid}
             />
 						<Input
               placeholder="Phone Number"
               {...register('phoneNumber')}
-              isValid={!getFieldState("phoneNumber").isTouched ? null : !getFieldState("phoneNumber").invalid}
+              isvalid={!getFieldState("phoneNumber").isTouched ? null : !getFieldState("phoneNumber").invalid}
             />
 						<TextArea
               {...register('address')}
               rows={4}
               placeholder="Address"
               maxLength={120}
-              isValid={getFieldState("address").error}
+              isvalid={!getFieldState("address").isTouched ? null : !getFieldState("address").invalid}
             />
 						<CounterFields>{addressWatch?.length ?? 0} / 120</CounterFields>
 					</Column>
@@ -75,9 +84,10 @@ const Delivery = () => {
 				</Row>
 			</Column>
 			<Summary
-				handleSubmit={handleSubmit}
+				handleSubmit={onSubmit}
         navigate={() => navigate('/payment')} 
         textButton="Continue to Payment"
+        disabledButton={disabledButton}
       />
 		</Form>
 	)

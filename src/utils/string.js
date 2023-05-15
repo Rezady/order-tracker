@@ -17,4 +17,11 @@ export const getActive = (key, pathname) => {
       (key == 2 && pathname == "/finish") ? 
       true : false
     ) 
-  }
+}
+
+export const goBack = (pathname, navigate) => {
+    if(pathname === "/payment") {
+      navigate('/delivery')
+    }
+    return ;
+}
